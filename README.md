@@ -4,22 +4,11 @@
 
 ## 第一次使用
 
-1. 首次运行 `create` 或 `report` 时，Codex 会自动创建 `banana-meet` 远程 MCP，填好服务地址和 Token 环境变量名。
-2. 在 Codex App 打开 **Settings → MCP Servers → banana-meet**，添加环境变量：
+1. 首次运行 `create` 或 `report` 时，Codex 会自动创建 `banana-meet` 远程 MCP 并打开授权网页。
+2. 仅在该网页中输入管理员提供的 Token，确认授权。
+3. 授权完成后新开一个 task，再使用下面任一命令。
 
-   ```text
-   BANANA_MEET_MCP_API_KEY = 管理员提供的 Token
-   ```
-
-3. 保存后新开一个 task，再使用下面任一命令。
-
-不要把 Token 发到聊天中。
-
-也可以在终端执行以下命令。将占位符替换为 Token 后运行，再重启 Codex App：
-
-```bash
-export BANANA_MEET_MCP_API_KEY='在此粘贴 Token'
-```
+不要把 Token 发到聊天、Codex 设置页或终端中。
 
 ## 创建活动
 
