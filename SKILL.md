@@ -22,7 +22,18 @@ $banana-meet report <活动链接或活动码>
 
 加载 Skill 时不要预检。仅在 `create` 或 `report` 第一次需要调用 `banana-meet` MCP、但工具尚不可调用时，暂停原操作。
 
-当前 Codex App 的 MCP Servers 页面只提供环境变量配置，不提供“为远程 MCP 保存静态 Bearer Token”的界面。仅添加 `BANANA_MEET_MCP_API_KEY` 环境变量不会让远程请求自动带上 `Authorization: Bearer`，因此不能完成 Banana Meet 的静态 Token 接入。明确告知该限制，然后给出以下可复制的终端方案。令用户仅在自己终端中将占位符替换为 Token；不得要求其在聊天中发送 Token：
+先引导用户在 Codex App **Settings → MCP Servers** 添加环境变量：名称为 `BANANA_MEET_MCP_API_KEY`，值为管理员提供的 Token。不得要求用户在聊天中发送 Token。
+
+用户确认已保存该环境变量后，Agent 自行运行 `codex mcp get banana-meet --json`。若服务不存在、仍是本地 stdio，或不是 `https://banana.namihai.com/mcp`，Agent 自行运行：
+
+```bash
+codex mcp remove banana-meet
+codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-env-var BANANA_MEET_MCP_API_KEY
+```
+
+这两条命令只注册“从该环境变量读取 Bearer Token”的远程 MCP，不会读取、输出或持久化 Token 值。随后提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。
+
+只有当用户无法在 MCP Servers 页面保存环境变量时，才给出以下可复制的终端备用方案。令用户仅在自己终端中将占位符替换为 Token；不得要求其在聊天中发送 Token：
 
 ```bash
 export BANANA_MEET_MCP_API_KEY='在此粘贴管理员提供的 Token'
