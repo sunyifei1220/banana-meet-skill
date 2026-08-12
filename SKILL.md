@@ -1,34 +1,39 @@
 ---
 name: banana-meet
-description: 创建 Banana Meet 活动、读取参与报告、推荐时段并按需绑定通用 Webhook。用于用户要求创建、分享、汇总、推荐活动时间或接收 Banana Meet 新报名事件时；在新 Codex 环境中自动检查并配置远程 MCP。
+description: 创建 Banana Meet 活动、读取参与报告、推荐时段并按需绑定通用 Webhook。用于任何支持 MCP 的 Agent 要求创建、分享、汇总、推荐活动时间或接收 Banana Meet 新报名事件时；优先适配 Codex，并提供通用客户端配置。
 ---
 
 # Banana Meet
 
-使用 Banana Meet 远程 MCP：`https://banana.namihai.com/mcp`。
+使用 Banana Meet 远程 MCP：`https://banana.namihai.com/mcp`。该 Skill 可用于任何支持 Streamable HTTP MCP 和 Bearer Token 的 Agent；客户端配置见 [references/clients.md](references/clients.md)。
 
 ## 首次配置
 
-先检查 `banana-meet` MCP 是否已存在且指向上述远程地址。若已正确配置，直接继续，不要重复安装。
+先检查 Agent 是否已注册名为 `banana-meet`、地址为上述远程 MCP 的服务。若已正确配置，直接继续，不要重复安装。
 
-若不存在或仍是本地 stdio 服务：
+所有客户端均从进程环境变量 `BANANA_MEET_MCP_API_KEY` 读取密钥。不得要求用户在聊天中发送密钥，也不得将密钥写入 Skill、Git 仓库、配置文件或日志。
 
-1. 要求用户在 Codex 进程环境中设置 `BANANA_MEET_MCP_API_KEY`。不得要求用户在聊天中发送密钥，也不得在回复中输出密钥。
-2. 若已有同名但不是远程 MCP 的配置，先运行：
+### Codex
+
+若 Codex 中不存在或仍是本地 stdio 服务：
+
+1. 若已有同名但不是远程 MCP 的配置，先运行：
 
 ```bash
 codex mcp remove banana-meet
 ```
 
-3. 运行：
+2. 运行：
 
 ```bash
 codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-env-var BANANA_MEET_MCP_API_KEY
 ```
 
-4. 提醒用户新开 Codex task 或重启 App，使新增 MCP 工具可用。
+3. 提醒用户新开 Codex task 或重启 App，使新增 MCP 工具可用。
 
-缺少 API Key 时，停止安装并请用户通过其安全的环境变量管理方式设置该变量。
+### 其他 Agent
+
+不要尝试执行 Codex 命令。使用 [references/clients.md](references/clients.md) 中对应客户端的 JSON 或 TOML 配置；统一使用远程地址和 `BANANA_MEET_MCP_API_KEY` 环境变量。
 
 ## 创建活动
 

@@ -10,6 +10,8 @@ Codex 注册命令：
 codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-env-var BANANA_MEET_MCP_API_KEY
 ```
 
+其他 MCP 客户端配置见 [客户端配置](clients.md)。
+
 可用工具：
 
 - `create_event`：创建活动。可选 `webhookUrl` 为该活动绑定新报名回调。
