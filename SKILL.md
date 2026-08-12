@@ -34,7 +34,7 @@ codex mcp remove banana-meet
 codex mcp add banana-meet --url https://banana.namihai.com/mcp
 ```
 
-随后 Agent 自行运行 `codex mcp login banana-meet`。Codex 会打开 `banana.namihai.com` 授权页；引导用户只在该网页中输入管理员提供的 Token 并确认授权。不得要求用户在聊天、App MCP 设置或终端中填写 Token。
+随后 Agent 自行运行 `codex mcp login banana-meet`。Codex 会启动浏览器授权，并展示 `banana.namihai.com` 授权页链接；当前环境能直接打开浏览器时直接打开。引导用户只在该网页中输入管理员提供的 Token 并确认授权。不得要求用户在聊天、App MCP 设置或终端中填写 Token。
 
 授权成功后，Codex 安全保存可撤销、会过期的 MCP 访问令牌。提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。成功接入后，不再重复显示该引导；只有授权、Token、连接或地址失效时才重新登录。
 
