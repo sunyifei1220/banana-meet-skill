@@ -49,6 +49,23 @@ codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-en
 
 使用 `$banana-meet create <活动描述>` 时，从描述中提取活动名称、具体日期或每周重复日期、可选时间范围。
 
+首次创建且 `banana-meet` MCP 工具尚不可调用时，先给出 Codex App 图形界面引导，不要先要求用户打开终端：
+
+1. 打开 Codex App **设置**，搜索并进入 **MCP Servers**。
+2. 选择添加远程 MCP，填写名称 `banana-meet` 与 URL `https://banana.namihai.com/mcp`。
+3. 若界面提供认证方式，选择 **Bearer Token**，将管理员提供的 Token 粘贴到 Token 输入框，保存并启用。
+4. 提醒用户新开一个 Codex task，并重新发送原始 `$banana-meet create ...` 命令。
+
+若 MCP Servers 页面无法打开、没有添加远程服务入口，或没有 Bearer Token 输入框，明确说明当前 App 无法用图形界面保存静态 Token，并给出以下可复制的终端备用方案。令用户仅在自己终端中将占位符替换为 Token；不得要求其在聊天中发送 Token：
+
+```bash
+export BANANA_MEET_MCP_API_KEY='在此粘贴管理员提供的 Token'
+codex mcp remove banana-meet
+codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-env-var BANANA_MEET_MCP_API_KEY
+```
+
+说明该环境变量必须可被 Codex App 进程读取；执行后从同一环境重新启动 Codex App 或新开 task。若 `remove` 表示服务不存在，可忽略该行的错误并继续执行 `add`。只有确认 MCP 工具可调用后，才进入以下创建流程。
+
 在调用 `create_event` 前，必须询问用户是否需要新报名消息推送；已明确说明时无需重复询问。
 
 - 用户不需要：不传入 `webhookUrl`，创建普通活动。

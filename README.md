@@ -22,6 +22,8 @@ $banana-meet report https://banana.namihai.com/e/<活动码>
 
 `$banana-meet` 是主 Skill，后面的第一个词由同一个 `SKILL.md` 路由为 `init`、`create` 或 `report`。仅首次使用时执行 `init`；之后直接使用 `create` 或 `report`，只有认证、Token、连接或地址失效才重新执行 `init`。首次初始化后，请新开 Codex task 或重启 App，使 MCP 工具可用。
 
+首次执行 `create` 而 MCP 尚未可用时，Skill 优先引导使用者在 Codex App 的 **Settings → MCP Servers** 添加 `banana-meet` 远程服务并填写 Bearer Token；只有该界面不可用或不支持静态 Token 时，才提供终端备用命令。
+
 ## 安全性
 
 不要将 `BANANA_MEET_MCP_API_KEY` 或活动 Webhook URL 提交到仓库、发送到聊天或写入公开配置。
