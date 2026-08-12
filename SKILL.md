@@ -36,15 +36,16 @@ codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-en
 
 这两条命令只注册“从该环境变量读取 Bearer Token”的远程 MCP，不会读取、输出或持久化 Token 值。
 
-随后引导用户在 Codex App **Settings → MCP Servers → banana-meet** 的环境变量区域填写：名称为 `BANANA_MEET_MCP_API_KEY`，值为管理员提供的 Token。不得要求用户在聊天中发送 Token。保存后提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。
+随后同时给出以下两种 Token 配置方式，优先推荐 App 设置；不得要求用户在聊天中发送 Token：
 
-只有当用户无法在 MCP Servers 页面保存环境变量时，才给出以下可复制的终端备用方案。令用户仅在自己终端中将占位符替换为 Token；不得要求其在聊天中发送 Token：
+1. 在 Codex App **Settings → MCP Servers → banana-meet** 的环境变量区域填写：名称为 `BANANA_MEET_MCP_API_KEY`，值为管理员提供的 Token。
+2. 或在用户自己的终端中执行以下命令，并将占位符替换为 Token：
 
 ```bash
 export BANANA_MEET_MCP_API_KEY='在此粘贴管理员提供的 Token'
 ```
 
-说明该环境变量必须可被 Codex App 进程读取；执行后从同一环境重新启动 Codex App 或新开 task。成功接入后，不再重复显示该引导；只有认证、Token、连接或地址失效时才重新显示。
+说明终端方式的环境变量必须可被 Codex App 进程读取；执行后从同一环境重新启动 Codex App。任一方式保存后，都提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。成功接入后，不再重复显示该引导；只有认证、Token、连接或地址失效时才重新显示。
 
 ## create
 
