@@ -1,0 +1,4 @@
+interface:
+  display_name: "Banana Meet"
+  short_description: "Create event reports and generic webhook callbacks"
+  default_prompt: "使用 $banana-meet 创建一个 Banana Meet 活动并返回链接。"
