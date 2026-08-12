@@ -1,21 +1,33 @@
 ---
 name: banana-meet
-description: 创建 Banana Meet 活动、读取参与报告、推荐时段并按需绑定通用 Webhook。用于任何支持 MCP 的 Agent 要求创建、分享、汇总、推荐活动时间或接收 Banana Meet 新报名事件时；优先适配 Codex，并提供通用客户端配置。
+description: 在 Codex 中以 /banana-meet config、/banana-meet create 或 /banana-meet report 管理 Banana Meet。用于配置远程 MCP、创建活动、返回活动链接，或获取参与报告与推荐时段。
 ---
 
-# Banana Meet
+# /banana-meet
 
-使用 Banana Meet 远程 MCP：`https://banana.namihai.com/mcp`。该 Skill 可用于任何支持 Streamable HTTP MCP 和 Bearer Token 的 Agent；客户端配置见 [references/clients.md](references/clients.md)。
+将用户输入解释为以下命令：
 
-## 首次配置
+```text
+/banana-meet config
+/banana-meet create <活动描述>
+/banana-meet report <活动链接或活动码>
+```
 
-先检查 Agent 是否已注册名为 `banana-meet`、地址为上述远程 MCP 的服务。若已正确配置，直接继续，不要重复安装。
+在 Codex 中，Skill 的显式加载方式是 `$banana-meet`，而不是可由 Skill 自行注册的原生斜杠命令。因此提示词使用：
 
-所有客户端均从进程环境变量 `BANANA_MEET_MCP_API_KEY` 读取密钥。不得要求用户在聊天中发送密钥，也不得将密钥写入 Skill、Git 仓库、配置文件或日志。
+```text
+使用 $banana-meet /banana-meet create 产品讨论，2026-08-20，09:00-18:00 可选。
+```
 
-### Codex
+也接受用户省略 `$banana-meet` 后直接输入的 `/banana-meet ...`；按同一命令语义处理。
 
-若 Codex 中不存在或仍是本地 stdio 服务：
+## config
+
+使用 `/banana-meet config` 时，先运行 `codex mcp get banana-meet --json`，检查 Codex 是否已注册名为 `banana-meet`、地址为 `https://banana.namihai.com/mcp` 的远程 MCP。正确时直接说明已配置，不要重复安装。
+
+密钥只从 Codex 进程环境变量 `BANANA_MEET_MCP_API_KEY` 读取。不得要求用户在聊天中发送密钥，也不得将密钥写入 Skill、Git 仓库、配置文件或日志。
+
+若不存在或仍是本地 stdio 服务：
 
 1. 若已有同名但不是远程 MCP 的配置，先运行：
 
@@ -31,15 +43,13 @@ codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-en
 
 3. 提醒用户新开 Codex task 或重启 App，使新增 MCP 工具可用。
 
-### 其他 Agent
+缺少 API Key 时停止配置，请用户通过安全的环境变量管理方式设置该变量。
 
-不要尝试执行 Codex 命令。使用 [references/clients.md](references/clients.md) 中对应客户端的 JSON 或 TOML 配置；统一使用远程地址和 `BANANA_MEET_MCP_API_KEY` 环境变量。
+## create
 
-## 创建活动
+使用 `/banana-meet create <活动描述>` 时，从描述中提取活动名称、具体日期或每周重复日期、可选时间范围。
 
-收集活动名称、具体日期或每周重复日期，以及时间模式。
-
-在调用 `create_event` 前，必须询问用户是否需要新报名消息推送。
+在调用 `create_event` 前，必须询问用户是否需要新报名消息推送；已明确说明时无需重复询问。
 
 - 用户不需要：不传入 `webhookUrl`，创建普通活动。
 - 用户需要：请用户提供接收地址；确认其为公开 HTTPS Webhook 后，将其作为 `webhookUrl` 传入。
@@ -48,12 +58,12 @@ Webhook 接收 `banana-meet.participant.created` JSON 事件。不得默认启�
 
 调用 `create_event` 后返回活动链接和活动码。
 
-## 查询报告
+## report
 
-使用活动码或链接调用 `get_event_report`。说明参与人数以及参与者重合度最高的最长连续时段；无人报名时说明暂无法推荐。
+使用 `/banana-meet report <活动链接或活动码>` 调用 `get_event_report`。说明参与人数，以及参与者重合度最高的最长连续推荐时段；无人报名时说明暂无法推荐。
 
-## 绑定 Webhook
+用户在创建后明确要求绑定或更新通知时，调用 `bind_webhook`。说明仅首次报名会发送事件；已有参与者后续修改时间不会重复发送。
 
-仅在用户明确要求时调用 `bind_webhook`。说明仅首次报名会发送事件；已有参与者后续修改时间不会重复发送。
+完整 MCP 工具说明见 [references/remote-mcp.md](references/remote-mcp.md)。
 
 永远不要在回复中复述、展示或持久化 Webhook URL；将其视为密钥。

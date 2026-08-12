@@ -1,4 +1,4 @@
 interface:
   display_name: "Banana Meet"
-  short_description: "Create event reports and generic webhook callbacks"
-  default_prompt: "使用 $banana-meet 创建一个 Banana Meet 活动并返回链接。"
+  short_description: "用命令式接口配置、创建和查看活动报告"
+  default_prompt: "使用 $banana-meet /banana-meet create 创建一个活动并返回链接。"

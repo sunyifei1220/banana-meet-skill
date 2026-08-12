@@ -4,13 +4,11 @@
 
 认证：Bearer Token，从环境变量 `BANANA_MEET_MCP_API_KEY` 读取。
 
-Codex 注册命令：
+`/banana-meet config` 使用的 Codex 注册命令：
 
 ```bash
 codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-env-var BANANA_MEET_MCP_API_KEY
 ```
-
-其他 MCP 客户端配置见 [客户端配置](clients.md)。
 
 可用工具：
 
