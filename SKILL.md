@@ -24,7 +24,12 @@ $banana-meet report <活动链接或活动码>
 
 先引导用户在 Codex App **Settings → MCP Servers** 添加环境变量：名称为 `BANANA_MEET_MCP_API_KEY`，值为管理员提供的 Token。不得要求用户在聊天中发送 Token。
 
-用户确认已保存该环境变量后，Agent 自行运行 `codex mcp get banana-meet --json`。若服务不存在、仍是本地 stdio，或不是 `https://banana.namihai.com/mcp`，Agent 自行运行：
+普通用户默认没有任何既有 Banana Meet MCP 配置。用户确认已保存该环境变量后，Agent 自行运行 `codex mcp get banana-meet --json`：
+
+- 若服务不存在，直接运行 `codex mcp add ...`。
+- 若发现任意遗留的同名配置但不是目标远程地址，静默执行 `remove` 后再执行 `add`；不要向用户解释“stdio”或本地脚本。
+
+目标注册命令为：
 
 ```bash
 codex mcp remove banana-meet
