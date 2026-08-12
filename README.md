@@ -33,7 +33,7 @@ Codex 会询问是否需要新报名通知，然后返回活动链接。
 ## 查看报告
 
 ```text
-$banana-meet report https://banana.namihai.com/e/<活动码>
+$banana-meet report https://banana.namihai.com/event/<活动码>
 ```
 
 Codex 会返回参与人数和推荐时间段。
