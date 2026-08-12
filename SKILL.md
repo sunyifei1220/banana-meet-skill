@@ -20,14 +20,9 @@ $banana-meet report <活动链接或活动码>
 
 ## 首次 MCP 接入
 
-加载 Skill 时不要预检。仅在 `create` 或 `report` 第一次需要调用 `banana-meet` MCP、但工具尚不可调用时，暂停原操作并先给出 Codex App 图形界面引导：
+加载 Skill 时不要预检。仅在 `create` 或 `report` 第一次需要调用 `banana-meet` MCP、但工具尚不可调用时，暂停原操作。
 
-1. 打开 Codex App **设置**，搜索并进入 **MCP Servers**。
-2. 选择添加远程 MCP，填写名称 `banana-meet` 与 URL `https://banana.namihai.com/mcp`。
-3. 若界面提供认证方式，选择 **Bearer Token**，将管理员提供的 Token 粘贴到 Token 输入框，保存并启用。
-4. 提醒用户新开一个 Codex task，并重新发送原始 Banana Meet 命令。
-
-若 MCP Servers 页面无法打开、没有添加远程服务入口，或没有 Bearer Token 输入框，明确说明当前 App 无法用图形界面保存静态 Token，并给出以下可复制的终端备用方案。令用户仅在自己终端中将占位符替换为 Token；不得要求其在聊天中发送 Token：
+当前 Codex App 的 MCP Servers 页面只提供环境变量配置，不提供“为远程 MCP 保存静态 Bearer Token”的界面。仅添加 `BANANA_MEET_MCP_API_KEY` 环境变量不会让远程请求自动带上 `Authorization: Bearer`，因此不能完成 Banana Meet 的静态 Token 接入。明确告知该限制，然后给出以下可复制的终端方案。令用户仅在自己终端中将占位符替换为 Token；不得要求其在聊天中发送 Token：
 
 ```bash
 export BANANA_MEET_MCP_API_KEY='在此粘贴管理员提供的 Token'

@@ -21,7 +21,7 @@ $banana-meet report https://banana.namihai.com/e/<活动码>
 
 `$banana-meet` 是主 Skill，后面的第一个词由同一个 `SKILL.md` 路由为 `create` 或 `report`。首次需要 MCP 时按需引导接入；接入成功后，直接使用这两个命令。只有认证、Token、连接或地址失效时才再次引导。
 
-首次需要调用 MCP（`create` 或 `report`）而 MCP 尚未可用时，Skill 优先引导使用者在 Codex App 的 **Settings → MCP Servers** 添加 `banana-meet` 远程服务并填写 Bearer Token；只有该界面不可用或不支持静态 Token 时，才提供终端备用命令。成功接入后不会在后续操作中重复引导。
+当前 Codex App 的 MCP Servers 页面不能为远程 MCP 保存静态 Bearer Token；其中的“添加环境变量”也不会自动为远程请求设置 Bearer 认证。因此首次需要调用 MCP 而服务尚未可用时，Skill 会提供终端接入命令。成功接入后不会在后续操作中重复引导。
 
 ## 安全性
 
