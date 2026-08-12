@@ -1,29 +1,27 @@
 ---
 name: banana-meet
-description: 在 Codex 中以 /banana-meet config、/banana-meet create 或 /banana-meet report 管理 Banana Meet。用于配置远程 MCP、创建活动、返回活动链接，或获取参与报告与推荐时段。
+description: 在 Codex 中用 $banana-meet config、$banana-meet create 或 $banana-meet report 管理 Banana Meet。用于配置远程 MCP、创建活动、返回活动链接，或获取参与报告与推荐时段。
 ---
 
-# /banana-meet
+# Banana Meet
 
-将用户输入解释为以下命令：
-
-```text
-/banana-meet config
-/banana-meet create <活动描述>
-/banana-meet report <活动链接或活动码>
-```
-
-在 Codex 中，Skill 的显式加载方式是 `$banana-meet`，而不是可由 Skill 自行注册的原生斜杠命令。因此提示词使用：
+将 `$banana-meet` 之后的第一个词作为子命令：
 
 ```text
-使用 $banana-meet /banana-meet create 产品讨论，2026-08-20，09:00-18:00 可选。
+$banana-meet config
+$banana-meet create <活动描述>
+$banana-meet report <活动链接或活动码>
 ```
 
-也接受用户省略 `$banana-meet` 后直接输入的 `/banana-meet ...`；按同一命令语义处理。
+## 路由规则
+
+- 第一个词为 `config`、`create` 或 `report` 时，执行该小节的流程；其余文本是该命令的参数。
+- 没有子命令时，简要列出三项可用命令并请用户选择；不要猜测或自动执行。
+- 使用自然语言但明确是在创建或查询 Banana Meet 时，也可映射到相应子命令。
 
 ## config
 
-使用 `/banana-meet config` 时，先运行 `codex mcp get banana-meet --json`，检查 Codex 是否已注册名为 `banana-meet`、地址为 `https://banana.namihai.com/mcp` 的远程 MCP。正确时直接说明已配置，不要重复安装。
+使用 `$banana-meet config` 时，先运行 `codex mcp get banana-meet --json`，检查 Codex 是否已注册名为 `banana-meet`、地址为 `https://banana.namihai.com/mcp` 的远程 MCP。正确时直接说明已配置，不要重复安装。
 
 密钥只从 Codex 进程环境变量 `BANANA_MEET_MCP_API_KEY` 读取。不得要求用户在聊天中发送密钥，也不得将密钥写入 Skill、Git 仓库、配置文件或日志。
 
@@ -47,7 +45,7 @@ codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-en
 
 ## create
 
-使用 `/banana-meet create <活动描述>` 时，从描述中提取活动名称、具体日期或每周重复日期、可选时间范围。
+使用 `$banana-meet create <活动描述>` 时，从描述中提取活动名称、具体日期或每周重复日期、可选时间范围。
 
 在调用 `create_event` 前，必须询问用户是否需要新报名消息推送；已明确说明时无需重复询问。
 
@@ -60,7 +58,7 @@ Webhook 接收 `banana-meet.participant.created` JSON 事件。不得默认启�
 
 ## report
 
-使用 `/banana-meet report <活动链接或活动码>` 调用 `get_event_report`。说明参与人数，以及参与者重合度最高的最长连续推荐时段；无人报名时说明暂无法推荐。
+使用 `$banana-meet report <活动链接或活动码>` 调用 `get_event_report`。说明参与人数，以及参与者重合度最高的最长连续推荐时段；无人报名时说明暂无法推荐。
 
 用户在创建后明确要求绑定或更新通知时，调用 `bind_webhook`。说明仅首次报名会发送事件；已有参与者后续修改时间不会重复发送。
 
