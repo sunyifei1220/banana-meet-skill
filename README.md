@@ -15,6 +15,13 @@
 
 不要把 Token 发到聊天中。
 
+也可以在终端执行以下命令。将占位符替换为 Token 后运行，再重启 Codex App：
+
+```bash
+export BANANA_MEET_MCP_API_KEY='在此粘贴 Token'
+codex mcp add banana-meet --url https://banana.namihai.com/mcp --bearer-token-env-var BANANA_MEET_MCP_API_KEY
+```
+
 ## 创建活动
 
 ```text
