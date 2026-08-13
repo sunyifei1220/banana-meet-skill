@@ -34,9 +34,9 @@ codex mcp remove banana-meet
 codex mcp add banana-meet --url https://banana.namihai.com/mcp
 ```
 
-随后引导用户在 Codex App **Settings → MCP Servers → banana-meet** 的 HTTP Headers（或环境变量/请求头）区域添加一条静态请求头：名称为 `Authorization`，值为 `Bearer 管理员提供的 Banana Meet Token`。不得要求用户在聊天中发送 Token，也不要使用 `Bearer token env var` 或 `BANANA_MEET_MCP_API_KEY` 作为请求头名称。
+随后引导用户在 Codex App **Settings → MCP Servers → banana-meet** 的 HTTP Headers（或环境变量/请求头）区域添加一条请求头：名称为 `Authorization`，值为 `Bearer 管理员提供的 Banana Meet Token`。不得要求用户在聊天中发送 Token，也不要使用 `Bearer token env var` 或 `BANANA_MEET_MCP_API_KEY` 作为请求头名称。
 
-保存后提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。该静态 Header 会跨 task 保持；只有 Token、连接或地址失效时才重新配置。
+用户保存后，Agent 检查 `codex mcp get banana-meet --json`。若该值被 Codex App 保存到 `env_http_headers.Authorization` 而不是 `http_headers.Authorization`，将同一条现有 Header 静默转换为 `http_headers.Authorization`；不得展示 Token。之后要求用户**完全退出并重新打开 Codex App**，再新开 task 并重新发送原始 Banana Meet 命令。该静态 Header 会跨 task 保持；只有 Token、连接或地址失效时才重新配置。
 
 ## create
 
