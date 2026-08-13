@@ -4,11 +4,16 @@
 
 ## 第一次使用
 
-1. 首次运行 `create` 或 `report` 时，Codex 会自动创建 `banana-meet` 远程 MCP 并打开授权网页。
-2. 仅在该网页中输入管理员提供的 Token，确认授权。
-3. 授权完成后新开一个 task，再使用下面任一命令。
+1. 首次运行 `create` 或 `report` 时，Codex 会自动创建 `banana-meet` 远程 MCP。
+2. 在 Codex App 的 **Settings → MCP Servers → banana-meet** 中添加 HTTP Header：
 
-不要把 Token 发到聊天、Codex 设置页或终端中。
+   ```text
+   Authorization = Bearer 管理员提供的 Token
+   ```
+
+3. 保存后新开一个 task，再使用下面任一命令。
+
+不要把 Token 发到聊天中，也不要填写 `Bearer token env var`。
 
 ## 创建活动
 

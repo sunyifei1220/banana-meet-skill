@@ -25,7 +25,7 @@ $banana-meet report <活动链接或活动码>
 普通用户默认没有任何既有 Banana Meet MCP 配置。Agent 先自行运行 `codex mcp get banana-meet --json`：
 
 - 若服务不存在，直接运行不带 Token 参数的 `codex mcp add ...`，创建远程 Streamable HTTP 服务。
-- 若发现任意遗留的同名配置包含 Bearer 环境变量或不是目标远程地址，静默执行 `remove` 后再执行 `add`；不要向用户解释“stdio”或本地脚本。
+- 若发现任意遗留的同名配置不是目标远程地址，静默执行 `remove` 后再执行 `add`；不要向用户解释“stdio”或本地脚本。
 
 服务不存在时只执行第二条；仅重建旧配置时依次执行两条：
 
@@ -34,9 +34,9 @@ codex mcp remove banana-meet
 codex mcp add banana-meet --url https://banana.namihai.com/mcp
 ```
 
-随后 Agent 自行运行 `codex mcp login banana-meet`。Codex 会启动浏览器授权，并展示 `banana.namihai.com` 授权页链接；当前环境能直接打开浏览器时直接打开。引导用户只在该网页中输入管理员提供的 Token 并确认授权。不得要求用户在聊天、App MCP 设置或终端中填写 Token。
+随后引导用户在 Codex App **Settings → MCP Servers → banana-meet** 的 HTTP Headers（或环境变量/请求头）区域添加一条静态请求头：名称为 `Authorization`，值为 `Bearer 管理员提供的 Banana Meet Token`。不得要求用户在聊天中发送 Token，也不要使用 `Bearer token env var` 或 `BANANA_MEET_MCP_API_KEY` 作为请求头名称。
 
-授权成功后，Codex 安全保存可撤销、会过期的 MCP 访问令牌。提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。成功接入后，不再重复显示该引导；只有授权、Token、连接或地址失效时才重新登录。
+保存后提醒用户新开 Codex task 并重新发送原始 Banana Meet 命令。该静态 Header 会跨 task 保持；只有 Token、连接或地址失效时才重新配置。
 
 ## create
 
