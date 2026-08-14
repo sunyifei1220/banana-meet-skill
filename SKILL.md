@@ -38,6 +38,26 @@ codex mcp add banana-meet --url https://banana.namihai.com/mcp
 
 用户保存后，Agent 检查 `codex mcp get banana-meet --json`。若该值被 Codex App 保存到 `env_http_headers.Authorization` 而不是 `http_headers.Authorization`，将同一条现有 Header 静默转换为 `http_headers.Authorization`；不得展示 Token。之后要求用户**完全退出并重新打开 Codex App**，再新开 task 并重新发送原始 Banana Meet 命令。该静态 Header 会跨 task 保持；只有 Token、连接或地址失效时才重新配置。
 
+首次接入完成后，向用户展示以下一次性使用说明；之后日常调用不再重复展示：
+
+```text
+Banana Meet 已就绪。
+
+创建活动：
+$banana-meet create <活动名称>，<日期或每周星期>，<时间安排>
+示例：$banana-meet create 产品讨论，2026-08-20，09:00–18:00 可选
+示例：$banana-meet create 周会，每周三，14:00–15:00 固定
+
+创建需提供活动名称、日期和时间安排；缺失时 Codex 会补问。
+若不需要选择时间，请明确写“无需选择时间”。创建完成后会返回活动链接和活动码。
+
+查看报名报告：
+$banana-meet report <活动链接或活动码>
+示例：$banana-meet report https://banana.namihai.com/event/ABCD
+
+报告会返回参与人数和推荐时段。创建默认不启用报名推送；需要时可明确要求为活动绑定通知，并提供公开 HTTPS Webhook 地址。
+```
+
 ## create
 
 使用 `$banana-meet create <活动描述>` 时，从描述中提取活动名称、具体日期或每周重复日期、以及时间安排。
