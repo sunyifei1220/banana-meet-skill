@@ -13,7 +13,7 @@
 
 3. 保存后新开一个 task，再使用下面任一命令。
 
-不要把 Token 发到聊天中，也不要填写 `Bearer token env var`。若保存后仍不能使用，让 Codex 检查并转换 Header 配置，然后完全退出并重新打开 Codex App。
+不要把 Token 发到聊天中，也不要填写 `Bearer token env var`。
 
 ## 创建活动
 
